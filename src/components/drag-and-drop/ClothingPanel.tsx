@@ -42,7 +42,7 @@ const accessories: ClothingItem[] = [
     { id: 'accessory5', imageUrl: '/images/accessories/sunglasses.jpg', itemType: 'accessories' },
 ];
 
-const clothingItemsByType = {
+const clothingItemsByType: Record<ItemType, ClothingItem[]> = {
     top: tops,
     bottom: bottoms,
     shoes: shoes,
