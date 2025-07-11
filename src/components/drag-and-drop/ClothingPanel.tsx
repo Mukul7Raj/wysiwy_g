@@ -3,8 +3,11 @@
 import React from 'react';
 import DraggableClothingItem from './DraggableClothingItem';
 
+type ItemType = "top" | "bottom" | "shoes" | "accessories";
+type ClothingItem = { id: string; imageUrl: string; itemType: ItemType };
+
 // 🧥 Tops
-const tops = [
+const tops: ClothingItem[] = [
     { id: 'top1', imageUrl: '/images/tops/top1.webp', itemType: 'top' },
     { id: 'top2', imageUrl: '/images/tops/top2.jpg', itemType: 'top' },
     { id: 'top3', imageUrl: '/images/tops/top3.jpg', itemType: 'top' },
@@ -13,7 +16,7 @@ const tops = [
 ];
 
 // 👖 Bottoms
-const bottoms = [
+const bottoms: ClothingItem[] = [
     { id: 'bottom1', imageUrl: '/images/bottoms/bottom1.webp', itemType: 'bottom' },
     { id: 'bottom2', imageUrl: '/images/bottoms/bottom2.webp', itemType: 'bottom' },
     { id: 'bottom3', imageUrl: '/images/bottoms/bottom3.jpg', itemType: 'bottom' },
@@ -22,7 +25,7 @@ const bottoms = [
 ];
 
 // 👟 Shoes
-const shoes = [
+const shoes: ClothingItem[] = [
     { id: 'shoes1', imageUrl: '/images/shoes/shoes1.webp', itemType: 'shoes' },
     { id: 'shoes2', imageUrl: '/images/shoes/shoes2.webp', itemType: 'shoes' },
     { id: 'shoes3', imageUrl: '/images/shoes/shoes3.jpg', itemType: 'shoes' },
@@ -31,7 +34,7 @@ const shoes = [
 ];
 
 // 🕶️ Accessories
-const accessories = [
+const accessories: ClothingItem[] = [
     { id: 'accessory1', imageUrl: '/images/accessories/belt.jpg', itemType: 'accessories' },
     { id: 'accessory2', imageUrl: '/images/accessories/belt2.webp', itemType: 'accessories' },
     { id: 'accessory3', imageUrl: '/images/accessories/cap.png', itemType: 'accessories' },
