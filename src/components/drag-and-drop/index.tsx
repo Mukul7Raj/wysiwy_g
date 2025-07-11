@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { DndContext, DragEndEvent, DragOverlay, DragStartEvent } from '@dnd-kit/core';
 import ClothingPanel from './ClothingPanel';
-import EnhancedOutfitCanvas from './OutfitCanvas';
+import OutfitCanvas from './OutfitCanvas';
 import { DroppableZoneRefMap } from './DroppableZone';
 import CartSidebar from './CartSidebar';
 
@@ -15,7 +15,6 @@ const DragAndDropIndex: React.FC = () => {
         const { active } = event;
         setActiveItem(active.data.current);
     };
-    
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
 
@@ -38,7 +37,7 @@ const DragAndDropIndex: React.FC = () => {
                 className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col md:flex-row justify-center items-start gap-8 md:gap-12 px-2 py-8 max-w-6xl mx-auto"
             >
                 <ClothingPanel />
-                <EnhancedOutfitCanvas onCartClick={() => setIsCartOpen(true)} />
+                <OutfitCanvas onCartClick={() => setIsCartOpen(true)} />
             </div>
             <DragOverlay>
                 {activeItem ? (
