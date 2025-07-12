@@ -8,7 +8,7 @@ type DraggableClothingItemProps = {
   itemType: 'top' | 'bottom' | 'shoes' | 'accessories';
 };
 
-const EnhancedDraggableClothingItem: React.FC<DraggableClothingItemProps> = ({ 
+const DraggableClothingItem: React.FC<DraggableClothingItemProps> = ({ 
   id, 
   imageUrl, 
   itemType 
@@ -20,6 +20,14 @@ const EnhancedDraggableClothingItem: React.FC<DraggableClothingItemProps> = ({
       itemType
     });
     e.dataTransfer.setData('text/plain', data);
+    e.dataTransfer.effectAllowed = 'copy';
+    
+    // Create a custom drag image
+    const dragImage = new Image();
+    dragImage.src = imageUrl;
+    dragImage.onload = () => {
+      e.dataTransfer.setDragImage(dragImage, 50, 50);
+    };
   };
 
   // Get appropriate sizing based on item type
@@ -76,4 +84,4 @@ const EnhancedDraggableClothingItem: React.FC<DraggableClothingItemProps> = ({
   );
 };
 
-export default EnhancedDraggableClothingItem;
+export default DraggableClothingItem;
