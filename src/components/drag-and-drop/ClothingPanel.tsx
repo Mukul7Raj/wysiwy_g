@@ -49,31 +49,57 @@ const clothingItemsByType: Record<ItemType, ClothingItem[]> = {
     accessories: accessories,
 };
 
+const typeLabels: Record<ItemType, { label: string; emoji: string }> = {
+    top: { label: 'Tops', emoji: '👕' },
+    bottom: { label: 'Bottoms', emoji: '👖' },
+    shoes: { label: 'Shoes', emoji: '👟' },
+    accessories: { label: 'Accessories', emoji: '🕶️' },
+};
+
 const ClothingPanel: React.FC = () => (
-    <div className="card bg-white dark:bg-gray-900 text-black dark:text-white rounded-2xl shadow-lg p-8 w-full max-w-md mx-auto my-6 border border-gray-200">
-        <h2 className="text-center mb-8 text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-6 w-full border border-gray-200 dark:border-gray-700">
+        <h2 className="text-center mb-6 text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
             Clothing Items
         </h2>
-        {Object.entries(clothingItemsByType).map(([type, items]) => (
-            <div key={type} className="mb-8">
-                <h4 className="mb-4 capitalize text-lg font-semibold text-gray-700 dark:text-gray-200">
-                    {type}
-                </h4>
-                <div className="grid grid-cols-3 gap-4 sm:grid-cols-4 md:grid-cols-3">
-                    {items.map((item) => (
-                        <div
-                            key={item.id}
-                            className="relative group bg-white dark:bg-gray-800 rounded-xl shadow p-2 flex items-center justify-center"
-                        >
-                            <DraggableClothingItem {...item} />
-                            <span className="absolute bottom-1 left-1 text-xs text-white opacity-0 group-hover:opacity-100 transition">
-                                {item.id}
-                            </span>
-                        </div>
-                    ))}
+        
+        <div className="space-y-8">
+            {Object.entries(clothingItemsByType).map(([type, items]) => (
+                <div key={type} className="space-y-4">
+                    <div className="flex items-center gap-2 pb-2 border-b border-gray-200 dark:border-gray-600">
+                        <span className="text-2xl">{typeLabels[type as ItemType].emoji}</span>
+                        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 capitalize">
+                            {typeLabels[type as ItemType].label}
+                        </h3>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        {items.map((item) => (
+                            <div
+                                key={item.id}
+                                className="relative group bg-gray-50 dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-600 hover:shadow-md transition-all duration-200 overflow-hidden"
+                            >
+                                <DraggableClothingItem {...item} />
+                                
+                                {/* Enhanced hover effect */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
+                                
+                                {/* Item ID label */}
+                                <div className="absolute bottom-1 left-1 bg-black/70 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                    {item.id}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
-        ))}
+            ))}
+        </div>
+        
+        {/* Instructions */}
+        <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg border border-blue-200 dark:border-blue-700">
+            <p className="text-sm text-blue-800 dark:text-blue-200 text-center">
+                <span className="font-semibold">💡 Tip:</span> Drag items to the canvas builder to create your outfit
+            </p>
+        </div>
     </div>
 );
 

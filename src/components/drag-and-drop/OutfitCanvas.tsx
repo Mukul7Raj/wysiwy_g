@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { useCart } from '@/context/CartContext';
 
 type PlacedItem = {
     id: string;
@@ -25,6 +26,9 @@ const EnhancedOutfitCanvas: React.FC<OutfitCanvasProps> = ({ onCartClick }) => {
     const [resizing, setResizing] = useState<string | null>(null);
     const [savedOutfits, setSavedOutfits] = useState<PlacedItem[][]>([]);
     const canvasRef = useRef<HTMLDivElement>(null);
+    
+    // Add cart functionality
+    const { addToCart } = useCart();
 
     // Load saved outfits from localStorage
     useEffect(() => {
@@ -132,6 +136,50 @@ const EnhancedOutfitCanvas: React.FC<OutfitCanvasProps> = ({ onCartClick }) => {
     // Remove item
     const removeItem = (itemId: string) => {
         setPlacedItems(prev => prev.filter(item => item.id !== itemId));
+    };
+
+    // Add to Cart function
+    const handleAddToCart = () => {
+        if (placedItems.length === 0) {
+            alert('Please add items to your outfit before adding to cart!');
+            return;
+        }
+
+        // Check if outfit has at least one item of each type for a complete outfit
+        const hasTop = placedItems.some(item => item.itemType === 'top');
+        const hasBottom = placedItems.some(item => item.itemType === 'bottom');
+        const hasShoes = placedItems.some(item => item.itemType === 'shoes');
+        const hasAccessories = placedItems.some(item => item.itemType === 'accessories');
+
+        if (!hasTop || !hasBottom || !hasShoes || !hasAccessories) {
+            const missing = [];
+            if (!hasTop) missing.push('top');
+            if (!hasBottom) missing.push('bottom');
+            if (!hasShoes) missing.push('shoes');
+            if (!hasAccessories) missing.push('accessories');
+            
+            alert(`Please add the following items to complete your outfit: ${missing.join(', ')}`);
+            return;
+        }
+
+        const outfitId = `outfit-${Date.now()}`;
+        
+        // Convert PlacedItems to OutfitItems for cart
+        const outfitItems = placedItems.map(item => ({
+            id: item.id,
+            imageUrl: item.imageUrl,
+            itemType: item.itemType
+        }));
+
+        addToCart({
+            id: outfitId,
+            items: outfitItems
+        });
+
+        // Clear the canvas after adding to cart
+        setPlacedItems([]);
+        
+        alert('Outfit added to cart successfully!');
     };
 
     // Save outfit
@@ -277,6 +325,13 @@ const EnhancedOutfitCanvas: React.FC<OutfitCanvasProps> = ({ onCartClick }) => {
 
             {/* Action Buttons */}
             <div className="flex flex-wrap gap-3 mt-6 justify-center">
+                <button
+                    onClick={handleAddToCart}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                    🛒 Add to Cart
+                </button>
+                
                 <button
                     onClick={saveOutfit}
                     className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
